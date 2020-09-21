@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-light bg-light justify-content-center"> 
+                        {% if user.is_authenticated %}
+                        <div class="container justify-content-center mb-3">
+                        <h4> Welcome {{user.username}}</h4>   </div>
+                    </br>
+                          
+                       
+                     
+                       {% else %}
+                       <div class="container justify-content-center mb-3">
+                        <a type="button" href="{% url 'login' %}" class="btn btn-lg btn-primary mr-4" disabled>Login</a>
+                        <a type="button" href="{% url 'signup' %}" class="btn btn-secondary btn-lg " disabled>Signup</a>
+                    </div>
+                </br>
+                        
+                      
+                       {% endif %}
+
+
+    <form class="form-inline" method='POST' action="{% url 'home' %}">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="search" placeholder="Title/Author/Genere"
+            aria-label="Search" name='query_string' />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</nav>
+
+
+<br>
+
+{% for item in items %}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">{{item.title}}</h5>
+    </div>
+    <div class="card-body row">
+        <div class="col-md-2 col-4"> <img class="card-img-top" src={{item.image_url}} height="200" width="60"></div>
+        <div class="col-md-8 col-8">
+            <p class="card-text">Author: {{item.author}} </p>
+            <p class="card-text">Category: {{item.category}} </p>
+            <p class="card-text">Summary: {{item.summary}} </p>
+            <a href="#" class="btn btn-primary">Add book</a>
+        </div>
+    </div>
+</div>
+
+<br>
+{% endfor%}
+
+{% endblock %}
